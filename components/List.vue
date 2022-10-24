@@ -121,7 +121,6 @@
             Loader
         },
         created() {
-            //this.loadUsers();;
             this.ids = this.friends.map(v => v.id);
             this.setMaxCount(this.friends);
         },
@@ -133,7 +132,7 @@
         },
         methods: {
             ...mapActions(['getUsers', 'getUserInfo', 'getFriends']),
-            ...mapMutations(['updateFriends', 'updateUsers']),
+            ...mapMutations(['updateFriends']),
             search() {
                 if (this.filter.length === 0) {
                     this.users = [];
@@ -148,11 +147,6 @@
                         }
                     });
                     this.users = users;
-                });
-            },
-            loadUsers() {
-                this.getUsers().then(users => {
-                    this.updateUsers(users);
                 });
             },
             addFriend(friend) {
@@ -281,7 +275,7 @@
             },
             showDelete(friend) {
                 userId = friend.id;
-                this.textDelete = `Вы уверены, что удалить ${friend.name}?`;
+                this.textDelete = `Вы уверены, что хотите удалить ${friend.name}?`;
                 this.$refs.modal.show = true;
             },
             getAge(date) {
