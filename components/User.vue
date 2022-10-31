@@ -7,11 +7,11 @@
           </h5>
           <div class="card-body">
             <div class="row">
-                <div class=" col-sm-3" v-for="user in users" :key="user.id">
+                <div class=" col-sm-3" v-for="friend in friends" :key="friend.id">
                     <span>
-                        <img :src="user.photo">
+                        <img :src="friend.photo">
                     </span>
-                    <p class="text-center">{{ user.name }}</p>
+                    <p class="text-center">{{ friend.name }}</p>
                 </div>
             </div>
           </div>
@@ -70,7 +70,7 @@
         name: "User",
         data: function () {
             return {
-                users: [],
+                friends: [],
                 items: []
             }
         },
@@ -84,18 +84,17 @@
             this.getMessages();
         },
         computed: {
-            ...mapGetters(['friends'])
+            ...mapGetters(['users'])
         },
         methods: {
-            ...mapActions(['getFriends', 'getWall', 'getUserInfo']),
+            ...mapActions(['getFriends', 'getWall']),
             getFriendsApp() {
-                const ids = this.users.map(v => v.id);
                 const users = [];
 
                 this.getFriends(parseInt(this.$route.params.id)).then(data => {
-                    const friends = data.map(val => val.id);
+                    const friends = data.map(v => v.id);
 
-                    for (let val of this.friends) {
+                    for (let val of this.users) {
                         if (friends.includes(val.id)) {
                             users.push({
                                 ...val,
@@ -104,7 +103,7 @@
                         }
                         
                     }
-                    this.users = users;
+                    this.friends = users;
                 });
             },
             getMessages() {

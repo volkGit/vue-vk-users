@@ -21,7 +21,7 @@ export default {
 		async getFriends(ctx, id = 97861072) {
 			const params = {
 				user_id: id,
-				fields: 'nickname,photo_200_orig'
+				fields: 'nickname'
 			};
 
 			const users = await jsonp(getUrl('friends.get', params)).then(data => {
@@ -29,14 +29,11 @@ export default {
 					return data.response.items.map(v => {
 						return {
 							id: v.id,
-							name: `${v.first_name} ${v.last_name}`,
-							photo: v.photo_200_orig
+                            name: `${v.first_name} ${v.last_name}`
 						}
 					});
 				} catch {
-					return [{
-						id: -1
-					}];
+					return [-1];
 				}
 			});
 
@@ -71,9 +68,7 @@ export default {
 				try {
 					return data.response[0];
 				} catch {
-					return {
-						id: -1
-					};
+					return -1;
 				}
 			});
 		},
@@ -94,11 +89,15 @@ export default {
 		},
 		updateFriends(state, friends) {
 			state.friends = friends;
+		},
+		updateFriendsAll(state, friendsAll) {
+			state.friendsAll = friendsAll;
 		}
 	},
 	state: {
 		users: [],
-		friends: []
+		friends: [],
+		friendsAll: [],
 	},
 	getters: {
 		users(state) {
@@ -106,6 +105,9 @@ export default {
 		},
 		friends(state) {
 			return state.friends;
+		},
+		friendsAll(state) {
+			return state.friendsAll;
 		}
 	}
 }
